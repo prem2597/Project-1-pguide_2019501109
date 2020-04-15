@@ -5,6 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registration|pguide</title>
         <style>
+            .flex-container {
+                display: flex;
+                /* background-color: #fafafa; */
+                /* justify-content: center; */
+            }
+            /* .item {
+                flex: 2 1 auto;
+            } */
+            /* .box :first-child {
+                width: 150px;
+            } */
             body {
                 font-family: "Poppins", "Arial", "sans-serif";
                 font-weight: 400;
@@ -66,7 +77,6 @@
                 padding: 50px 40px;
                 padding-top: 50px;
                 padding-right: 40px;
-                padding-bottom: 50px;
                 padding-left: 40px;
             }
             .title {
@@ -83,30 +93,15 @@
                 padding: 0;
             }
             .row {
-                /* display: flex;
-                flex-wrap: wrap; */
-                display: -webkit-box;
-                display: -webkit-flex;
-                display: -moz-box;
-                display: -ms-flexbox;
                 display: flex;
-                -webkit-flex-wrap: wrap;
-                flex-wrap: wrap;
-                -ms-flex-wrap: wrap;
                 flex-wrap: wrap;
             }
             .row-space {
-                /* -moz-box-pack: justify; */
-                /* justify-content: center; */
-                -webkit-box-pack: justify;
                 -moz-box-pack: justify;
-                -webkit-justify-content: space-between;
-                justify-content: space-between;
-                -moz-box-pack: justify;
-                -ms-flex-pack: justify;
-                justify-content: space-between;
+                justify-content: space-around;
             }
             .col-2 {
+                /* flex: 50%; */
                 width: calc((100% - 30px) / 2);
             }
             .input {
@@ -173,36 +168,37 @@
                 <div class = "card card_data">
                 <div class="card-body">
                     <h2 class="title">Registration</h2>
-                    <form method="POST">
+                    <div class="flex-container">
                         <div class="row row-space">
                             <div class="col-2">
-                                <div class="input">
+                                <div class="input" style="flex-grow: 1.5">
                                     <label class="label">Fisrt Name</label>
                                     <input class="input-style" type="text" name="last-name" placeholder="First Name">
                                 </div>
                             </div>
                             <div class="col-2">
-                                <div class="input">
+                                <div class="input" style="flex-grow: 1.5">
                                     <label class="label">Last Name</label>
                                     <input class="input-style" type="text" name="last-name" placeholder="Last Name">
                                 </div>
                             </div>
-                            <div class="row row-space">
-                                <div class="col-2">
-                                    <div class="input">
-                                        <label class="label"> Date of Birth</label>
-                                        <div class="insert-icon">
-                                            <input class="input-style js-datepicker" type="text" name="birthday">
-                                        </div>
+                        </div>                        
+                    </div>
+                    
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input">
+                                    <label class="label"> Date of Birth</label>
+                                    <div class="insert-icon">
+                                        <input class="input-style js-datepicker" type="text" name="birthday">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 </div>
             </div>
         </div>
-
     </body>
 </html>
