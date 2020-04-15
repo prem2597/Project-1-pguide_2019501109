@@ -84,13 +84,14 @@
             }
             .row {
                 display: flex;
+                flex-wrap: wrap;
             }
             .row-space {
                 -moz-box-pack: justify;
                 justify-content: space-between;
             }
             .col-2 {
-                width: 100%;
+                width: calc((100% - 30px) / 2);
             }
             .input {
                 position: relative;
@@ -108,16 +109,30 @@
                 background: #fafafa;
                 box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
                 border-radius: 5px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+                border-bottom-left-radius: 5px;
                 padding: 0 20px;
+                padding-top: 0px;
+                padding-right: 20px;
+                padding-bottom: 0px;
+                padding-left: 20px;
                 font-size: 16px;
                 color: #666;
                 transition: all 0.4s ease;
+                transition-property: all;
+                transition-duration: 0.4s;
+                transition-timing-function: ease;
+                transition-delay: 0s;
             }
             .input {
                 outline: none;
                 outline-color: currentcolor;
                 outline-style: none;
                 outline-width: medium;
+                width: 100%;
+                font-family: inherit;
             }
         </style>
     </head>
@@ -132,9 +147,13 @@
                             <div class="col-2">
                                 <div class="input">
                                     <label class="label">Fisrt Name</label>
-                                    <input class="input-style" type="text" name="first-name" placeholder="Name">
+                                    <input class="input-style" type="text" name="last-name" placeholder="First Name">
                                 </div>
                             </div>
+                            <div class="col-2">
+                                <div class="input">
+                                    <label class="label">Last Name</label>
+                                    <input class="input-style" type="text" name="last-name" placeholder="Last Name">
                         </div>
                     </form>
                 </div>
