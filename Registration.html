@@ -7,8 +7,6 @@
         <style>
             .flex-container {
                 display: flex;
-                /* background-color: #fafafa; */
-                /* justify-content: center; */
             }
             body {
                 font-family: "Poppins", "Arial", "sans-serif";
@@ -19,7 +17,7 @@
                 padding-bottom: 100px;
             }
             .p-y {
-                padding-top: 130px;
+                padding-top: 40px;
             }
             .bg-02 {
                 background: linear-gradient(to top right, #fc2c77 0%, #6c4079 100%);
@@ -86,22 +84,6 @@
                 margin: 0;
                 padding: 0;
             }
-            .row {
-                display: flex;
-                flex-wrap: wrap;
-            }
-            .row-space {
-                -moz-box-pack: justify;
-                justify-content: space-around;
-            }
-            .col-2 {
-                /* flex: 50%; */
-                width: calc((100% - 30px) / 2);
-            }
-            .input {
-                position: relative;
-                margin-bottom: 22px;
-            }
             .label {
                 font-size: 16px;
                 color: #555;
@@ -131,17 +113,6 @@
                 transition-timing-function: ease;
                 transition-delay: 0s;
             }
-            .input {
-                outline: none;
-                outline-color: currentcolor;
-                outline-style: none;
-                outline-width: medium;
-                width: 100%;
-                font-family: inherit;
-            }
-            .input-group-icon {
-                position: relative;
-            }
             * {
                 padding: 0;
                 padding-top: 0px;
@@ -154,43 +125,102 @@
                 margin-bottom: 0px;
                 margin-left: 0px;
             }
+            div {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+            }
+            .container {
+              display: flex;
+            }
+            .left-half {
+              flex: 1;
+              padding: 1rem;
+            }
+            .right-half {
+              flex: 1;
+              padding: 1rem;
+            }
+            .radio-container {
+              max-width: 780px;
+              padding: 1px;
+            }
         </style>
     </head>
     <body data-gr-c-s-loaded="true">
         <div class="page-wrapper bg-02 p-y p-b font-style">
             <div class="wrapper wrapper-axis">
                 <div class = "card card_data">
-                <div class="card-body">
-                    <h2 class="title">Registration</h2>
-                    <div class="flex-container">
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input" style="flex-grow: 1.5">
-                                    <label class="label">Fisrt Name</label>
-                                    <input class="input-style" type="text" name="last-name" placeholder="First Name">
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="input" style="flex-grow: 1.5">
-                                    <label class="label">Last Name</label>
-                                    <input class="input-style" type="text" name="last-name" placeholder="Last Name">
-                                </div>
-                            </div>
-                        </div>                        
-                    </div>
-                    
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input">
-                                    <label class="label"> Date of Birth</label>
-                                    <div class="insert-icon">
-                                        <input class="input-style js-datepicker" type="text" name="birthday">
+                    <div class="card-body">
+                        <h2 class="title">Registration</h2>
+                        <form method="POST">
+                            <div class="flex-container">
+                                <section class="container">
+                                    <div class="left-half">
+                                        <article>
+                                            <label class="label">Fisrt Name</label>
+                                            <input class="input-style" type="text" name="last-name" placeholder="First Name">
+                                        </article>
                                     </div>
-                                </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <label class="label">Last Name</label>
+                                            <input class="input-style" type="text" name="last-name" placeholder="Last Name">
+                                        </article>
+                                    </div>
+                                </section>
                             </div>
-                        </div>
+                            <div class="flex-container">
+                                <section class="container">
+                                    <div class="left-half">
+                                        <article>
+                                            <label class="label">Birthday</label>
+                                            <input class="input-style" type="date" name="date">
+                                        </article>
+                                    </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <label class="label">Gender</label>
+                                            <section class="container">
+                                                <div class="left-half">
+                                                    <article>
+                                                        <label class="radio-container">
+                                                            Male 
+                                                            <input type="radio" name="gender">
+                                                        </label>
+                                                    </article>
+                                                </div>
+                                                <div class="right-half">
+                                                    <article>
+                                                        <label class="radio-container">
+                                                            Female
+                                                            <input type="radio" name="gender">
+                                                        </label>
+                                                    </article>
+                                                </div>
+                                            </section>
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="flex-container">
+                                <section class="container">
+                                    <div class="left-half">
+                                        <article>
+                                            <label class="label">Email</label>
+                                            <input class="input-style" type="email" name="email" placeholder="Email">
+                                        </article>
+                                    </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <label class="label">Phone Number</label>
+                                            <input class="input-style" type="number" name="Phone-number">
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                        </form>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
