@@ -73,8 +73,8 @@
             }
             .title {
                 font-size: 24px;
-                color: #525252;
-                font-weight: 400;
+                color: black;
+                font-weight: 500;
                 margin-bottom: 40px;
             }
             *, ::before, ::after {
@@ -180,6 +180,43 @@
             .flex-container > div {
                 width: 150px;
             }
+            .form-group {
+                margin-bottom: 23px;
+            }
+            .label-agree-term {
+                font-size: 13px;
+                font-weight: 400;
+                color: black;
+            }
+            input[type="checkbox"]:not(old) + label {
+                display: inline-block;
+                margin-bottom: 25px;
+            }
+            input[type="checkbox"]:not(old) + label > span {
+                display: inline-block;
+                margin-bottom: 25px;               
+                width: 13px;
+                height: 13px;
+                margin-right: 15px;
+                margin-bottom: 4px;
+                border: 1px solid #fff;
+                border-radius: 2px;
+                background: 0 0;
+                vertical-align: bottom;
+            }
+            .term-service {
+                color: blue;
+            }
+            input[type="checkbox"]:not(old):checked + label > span::before {
+                content: '\f26b';
+                display: block;
+                color: red;
+                font-size: 11px;
+                line-height: 1.2;
+                text-align: center;
+                font-family: material-design-iconic-font;
+                font-weight: 700;
+            }
         </style>
     </head>
     <body data-gr-c-s-loaded="true">
@@ -187,7 +224,7 @@
             <div class="wrapper wrapper-axis">
                 <div class = "card card_data">
                     <div class="card-body">
-                        <h2 class="title">Registration</h2>
+                        <h2 class="title">Register Here</h2>
                         <form method="POST">
                             <div class="flex-container">
                                 <section class="container">
@@ -270,9 +307,18 @@
                                     </div>
                                 </section>
                             </div>
+                            <div class="form-group">
+                                <label class="label-agree-term" for="agree-term">
+                                    <span>
+                                        <span></span>
+                                    </span>
+                                    I agree all statements in
+                                    <a class="term-service" href="#">Terms of service</a>
+                                </label>
+                            </div>
                             <div class="flex-holder">
                                <div class="p-t-15">
-                                   <button class="btn btn--radius-2 btn--blue" type="submit">Register</button>
+                                   <button class="btn btn--radius-2 btn--blue" type="submit">SIGN UP</button>
                                </div>
                             </div>
                         </form>
