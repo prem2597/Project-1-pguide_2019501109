@@ -225,13 +225,13 @@
                 <div class = "card card_data">
                     <div class="card-body">
                         <h2 class="title">Register Here</h2>
-                        <form method="POST">
+                        <form action="{{ url_for('hello') }}" method="POST">
                             <div class="flex-container">
                                 <section class="container">
                                     <div class="left-half">
                                         <article>
                                             <label class="label">Fisrt Name</label>
-                                            <input class="input-style" type="text" name="last-name" placeholder="First Name">
+                                            <input class="input-style" type="text" name="first-name" placeholder="First Name">
                                         </article>
                                     </div>
                                     <div class="right-half">
@@ -247,7 +247,7 @@
                                     <div class="left-half">
                                         <article>
                                             <label class="label">Birthday</label>
-                                            <input class="input-style" type="date" name="date">
+                                            <input class="input-style" type="date" name="date-of-birth">
                                         </article>
                                     </div>
                                     <div class="right-half">
@@ -258,16 +258,16 @@
                                                     <article>
                                                         <label class="radio-container">
                                                             Male 
-                                                            <input type="radio" name="gender">
                                                         </label>
+                                                        <input type="radio" name="gender" value="male" id="male">
                                                     </article>
                                                 </div>
                                                 <div class="right-half">
                                                     <article>
                                                         <label class="radio-container">
                                                             Female
-                                                            <input type="radio" name="gender">
                                                         </label>
+                                                        <input type="radio" name="gender" value="female" id="female">
                                                     </article>
                                                 </div>
                                             </section>
@@ -308,12 +308,13 @@
                                 </section>
                             </div>
                             <div class="form-group">
-                                <label class="label-agree-term" for="agree-term">
+                                <label class="label-agree-term" for="agree-term"><center>
                                     <span>
                                         <span></span>
                                     </span>
-                                    I agree all statements in
+                                    <br><input type="checkbox" name="valid" id="privacy"> I agree all statements in
                                     <a class="term-service" href="#">Terms of service</a>
+                                </center>
                                 </label>
                             </div>
                             <div class="flex-holder">
