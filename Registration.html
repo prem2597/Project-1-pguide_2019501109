@@ -145,6 +145,37 @@
               max-width: 780px;
               padding: 1px;
             }
+            .p-t-15 {
+                padding-top: 15px;
+            }
+            .btn--blue {
+                background: #4272d7;
+            }
+            .btn--radius-2 {
+                border-radius: 5px;
+            }
+            .btn {
+                display: center;
+                line-height: 50px;
+                padding: 0 50px;
+                transition: all 0.4s ease;
+                transition-property: all;
+                transition-duration: 0.4s;
+                transition-timing-function: ease;
+                transition-delay: 0s;
+                cursor: pointer;
+                font-size: 18px;
+                color: #fff;
+                font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+            }
+            button {
+                outline: none;
+                border: none;
+            }
+            .flex-holder {
+                display: flex;
+                justify-content: center;
+            }
         </style>
     </head>
     <body data-gr-c-s-loaded="true">
@@ -218,6 +249,11 @@
                                         </article>
                                     </div>
                                 </section>
+                            </div>
+                            <div class="flex-holder">
+                               <div class="p-t-15">
+                                   <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button>
+                               </div>
                             </div>
                         </form>
                     </div>
