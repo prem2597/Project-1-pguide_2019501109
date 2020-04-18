@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from flask import Flask, render_template, request, session
 from flask_session import Session
@@ -32,7 +33,12 @@ def hello():
         ph = request.form.get("Phone-number")
         pswd = request.form.get("password")
         details = full_name +"\n"+ birth +"\n"+ gen +"\n"+ mail + "\n" + ph
-        user1 = Users(name=full_name, dob=birth, gender=gen, email=mail, phone=ph, password=pswd)
+        user1 = Users(name=full_name, dob=birth, gender=gen, email=mail, phone=ph, password=pswd, timestamp=datetime.now())
         db.session.add(user1)
         db.session.commit()
         return render_template("hello.html", name = details)
+
+@app.route("/admin")
+def admin():
+    users_data = Users.query.order_by("timestamp").all()
+    return render_template("admin.html", name = users_data)
