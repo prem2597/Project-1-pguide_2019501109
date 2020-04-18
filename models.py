@@ -12,3 +12,4 @@ class Users(db.Model):
     phone = db.Column(db.String, nullable=False)
     password = db.Column(db.String, primary_key=True)
     timestamp = db.Column(db.String, nullable=False)
+
