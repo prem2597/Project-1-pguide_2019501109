@@ -3,6 +3,7 @@ from datetime import datetime
 
 from flask import Flask, render_template, request, session
 from flask_session import Session
+# from sqlalchemy.exc import SQLAlchemyError
 from models import *
 
 app = Flask(__name__)
@@ -32,13 +33,31 @@ def hello():
         mail = request.form.get("email")
         ph = request.form.get("Phone-number")
         pswd = request.form.get("password")
-        details = full_name +"\n"+ birth +"\n"+ gen +"\n"+ mail + "\n" + ph
+        # details = full_name +"\n"+ birth +"\n"+ gen +"\n"+ mail + "\n" + ph
         user1 = Users(name=full_name, dob=birth, gender=gen, email=mail, phone=ph, password=pswd, timestamp=datetime.now())
-        db.session.add(user1)
-        db.session.commit()
+        try :
+            db.session.add(user1)
+            db.session.commit()
+            details = "Data Base is successfully updated"
+        except:
+            details = "Invalid Credentials"
         return render_template("hello.html", name = details)
 
 @app.route("/admin")
 def admin():
-    users_data = Users.query.order_by("timestamp").all()
+    users_data = Users.query.order_by(Users.timestamp).all()
     return render_template("admin.html", name = users_data)
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    if request.method == "GET":
+        return "Please enter your userid and password"
+    else:
+        first_name = request.form.get("first-name")
+        last_name = request.form.get("last-name")
+    return render_template("login.html")
+
