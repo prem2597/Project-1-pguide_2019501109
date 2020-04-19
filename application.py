@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session , url_for, redirect
 from flask_session import Session
 # from sqlalchemy.exc import SQLAlchemyError
 from models import *
@@ -57,7 +57,12 @@ def logout():
     if request.method == "GET":
         return "Please enter your userid and password"
     else:
-        first_name = request.form.get("first-name")
-        last_name = request.form.get("last-name")
-    return render_template("login.html")
-
+        user_email = request.form.get("email")
+        user_password = request.form.get("pass")
+        users_data = Users.query.filter_by(email=user_email).first()
+        if user_password == users_data.password :
+            # pass
+            return render_template("logout.html")
+        else :
+            return redirect(url_for('login'))
+    # return render_template("login.html")

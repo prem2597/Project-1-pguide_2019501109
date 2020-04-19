@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/stylesheets/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/png" href="templates/css/index.ico" />
-        <link rel="stylesheet" type="text/css" href="templates/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="templates/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="templates/css/animate.css">
-        <link rel="stylesheet" type="text/css" href="templates/css/hamburgers.min.css">
-        <link rel="stylesheet" type="text/css" href="templates/css/select2.min.css">
-        <link rel="stylesheet" type="text/css" href="templates/css/util.css">
-        <link rel="stylesheet" type="text/css" href="templates/css/main.css">
+        <link rel="icon" type="image/png" href="css/index.ico" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/animate.css">
+        <link rel="stylesheet" type="text/css" href="css/hamburgers.min.css">
+        <link rel="stylesheet" type="text/css" href="css/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="css/util.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
         <title>Login|pguide</title>
         <style>
             body, html {
@@ -68,9 +68,9 @@
             <div class="container-login100">
                 <div class="wrap-login100">
                     <div class="login100-pic js-tilt" data-tilt>
-                        <img src="templates/css/img.png" alt="IMG">
+                        <img src="css/img.png" alt="IMG">
                     </div>
-                    <form class="login100-form validate-form">
+                    <form class="login100-form validate-form" action="{{ url_for('logout') }}" method="POST">
                         <span class="login100-form-title">Member Login</span>
                         <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                             <input class="input100" type="text" name="email" placeholder="Email">
@@ -103,11 +103,11 @@
                 </div>
             </div>
         </div>
-        <script src="templates/JS/jquery-3.2.1.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
-        <script src="templates/JS/popper.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
-        <script src="templates/JS/bootstrap.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
-        <script src="templates/JS/select2.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
-        <script src="templates/JS/tilt.jquery.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="JS/jquery-3.2.1.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="JS/popper.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="JS/bootstrap.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="JS/select2.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="JS/tilt.jquery.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
         <script type="a61f8e3fec730eaa2555d713-text/javascript">
                 $('.js-tilt').tilt({
                     scale: 1.1
@@ -121,7 +121,7 @@
 
             gtag('config', 'UA-23581568-13');
         </script>
-        <script src="templates/JS/main.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="JS/main.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
         <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="a61f8e3fec730eaa2555d713-|49" defer=""></script>
     </body>
 </html>
