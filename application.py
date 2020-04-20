@@ -15,6 +15,10 @@ app.config["SQLALCHEMY_TRACK_MODIFICATION "] = False
 Session(app)
 db.init_app(app)
 
+@app.route("/")
+def coverpage():
+    return render_template("welcome.html")
+
 @app.route("/register")
 def register():
     return render_template("Registration.html")
@@ -52,17 +56,30 @@ def admin():
 def login():
     return render_template("login.html")
 
-@app.route("/logout", methods=["GET", "POST"])
+@app.route("/auth", methods=["POST"])
+def auth():
+    print("-------------------------hello----------------------")
+    user_email = request.form.get("email")
+    user_password = request.form.get("pass")
+    users_data = Users.query.filter_by(email=user_email).first()
+    if user_password == users_data.password :
+        # pass
+        # db.session.add(user_email)
+        # db.session.commit()
+        session["email"] = user_email
+        print("Hello")
+        return render_template("logout.html")
+    else :
+        return redirect(url_for('login.html'))
+
+@app.route("/welcome", methods=["GET","POST"])
 def logout():
-    if request.method == "GET":
-        return "Please enter your userid and password"
-    else:
-        user_email = request.form.get("email")
-        user_password = request.form.get("pass")
-        users_data = Users.query.filter_by(email=user_email).first()
-        if user_password == users_data.password :
-            # pass
-            return render_template("logout.html")
-        else :
-            return redirect(url_for('login'))
-    # return render_template("login.html")
+    if request.method == "GET" :
+    # user = user_email
+        if session.get("email") is not None:
+            user_email = session.get("email")
+            session.clear()
+            # db.session.commit()
+            return render_template("welcome.html")
+    else :
+        return redirect(url_for('logout.html'))
