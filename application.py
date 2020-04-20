@@ -81,5 +81,8 @@ def logout():
             session.clear()
             # db.session.commit()
             return render_template("welcome.html")
+        else :
+            details = "Session experied login again"
+            return render_template("hello.html", name = details)
     else :
         return redirect(url_for('logout.html'))
