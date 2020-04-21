@@ -58,7 +58,7 @@ def login():
 
 @app.route("/auth", methods=["POST"])
 def auth():
-    print("-------------------------hello----------------------")
+    # print("-------------------------hello----------------------")
     user_email = request.form.get("email")
     user_password = request.form.get("pass")
     users_data = Users.query.filter_by(email=user_email).first()
@@ -67,7 +67,7 @@ def auth():
         # db.session.add(user_email)
         # db.session.commit()
         session["email"] = user_email
-        print("Hello")
+        # print("Hello")
         return render_template("logout.html")
     else :
         return redirect(url_for('login.html'))
