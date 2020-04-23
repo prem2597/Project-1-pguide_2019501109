@@ -13,3 +13,11 @@ class Users(db.Model):
     password = db.Column(db.String, primary_key=True)
     timestamp = db.Column(db.String, nullable=False)
 
+
+class Books(db.Model):
+    __tablename__ = "Books"
+    isbn = db.Column(db.String, primary_key=True)
+    title = db.Column(db.String, primary_key=True)
+    author = db.Column(db.String, primary_key=True)
+    year = db.Column(db.Integer, primary_key=True)
+
