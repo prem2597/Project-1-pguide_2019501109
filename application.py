@@ -39,7 +39,7 @@ def register():
 
 @app.route("/hello", methods=["GET", "POST"])
 def hello():
-    db.create_all()
+    # db.create_all()
     if request.method == "GET":
         return "Please register into the web site"
     else :
