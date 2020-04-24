@@ -1,0 +1,55 @@
+{% extends "layout3.html" %}
+
+{% block title %}
+    pguide|Book-Info
+{% endblock %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- <h1><center>Welcome to pguide!</center></h1> -->
+    <br>
+    <br>
+    <!-- {% for book in booklist %}
+        
+    {% endfor %} -->
+    <div class = "Book">
+        <div class = "Image">
+            <img src = {{image}} alt = "Image of a Book">
+        </div>
+
+        <div class = "news">
+            <div class = "content">
+                <div class = "details">
+                    <ul>
+                        <li>Book Name : {{Name}}</li>
+                        <li>Author : {{Author}}</li>
+                        <li>ISBN : {{ISBN}}</li>
+                        <li>Year of Publication : {{Year}}</li>
+                    </ul>
+                </div>
+
+                <div class = "overall">
+                    <ul>
+                        <li>Average Rating : {{rating}}</li>
+                        <li>Number of reviewers : {{count}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class = "review">
+                <p>
+                    The Review Data comes in this Division.
+                </p>
+            </div>
+            <div class = "button" onclick = "document.getElementById('id01').style.display='block'">
+                <ul>
+                    <li><a href = "#">Review</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+{% endblock %}

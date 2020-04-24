@@ -1,14 +1,16 @@
 import os
 import json
 from datetime import datetime
-# from flask_wtf import FlaskForm
 from flask import Flask, render_template, request, session , url_for, redirect
 from flask_session import Session
-# from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models import *
-# from wtforms import *
+from flask_sqlalchemy import SQLAlchemy
+import requests
+import logging
+# import flask.ext.sqlalchemy as flask_sqlalchemy
+# import flask_whooshalchemy as wa
 
 app = Flask(__name__)
 
@@ -73,24 +75,63 @@ def login():
 @app.route("/auth", methods=["GET","POST"])
 def auth():
     # print("-------------------------hello----------------------")
-    user_email = request.form.get("email")
-    user_password = request.form.get("pass")
-    users_data = Users.query.filter_by(email=user_email).first()
-    if user_password == users_data.password :
-        # pass
-        # db.session.add(user_email)
-        # db.session.commit()
-        session["email"] = user_email
-        # print("Hello")
-        return render_template("logout.html")
+    session.clear()
+    if request.method == 'POST' :
+        user_email = request.form.get("email")
+        user_password = request.form.get("pass")
+        users_data = Users.query.filter_by(email=user_email).first()
+        if user_password == users_data.password :
+            # pass
+            # db.session.add(user_email)
+            # db.session.commit()
+            session["email"] = user_email
+            # print("Hello")
+            return render_template("logout.html")
+        else :
+            return redirect(url_for('login'))
     else :
-        return redirect(url_for('login'))
+        return render_template("login.html")
+
+# @app.route("/search", methods=['POST'])
+# # @auth_required
+# def search():
+#     print("-------------------------------------Hello")
+#     searchword = request.form.get("data")
+#     print(searchword)
+#     searchword = "%" + searchword + "%"
+#     books = Books.query.filter(Books.title.like(searchword)).all()
+#     books1 = Books.query.filter(Books.author.like(searchword)).all()
+#     books2 = Books.query.filter(Books.isbn.like(searchword)).all()
+#     # books3 = Books.query.filter(Books.year.like(searchword)).all()
+#     bookdata = books + books1 + books2
+#     print(books)
+#     return render_template("search.html", booklist = bookdata)
+
+# @app.route("/book/<isbn>", methods=["GET"])
+# def bookInfo(isbn):
+#     # pass
+#     response = goodread_api(isbn)
+#     return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"])
+
+# def goodread_api(isbn):
+#     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "0gaifU0ED4eOcG7fDno6g", "isbns": isbn}) 
+#     logging.debug("Goodreads call Success")
+#     response = res.json()
+#     response = response['books'][0]
+#     book_info = Books.query.get(isbn)
+#     logging.debug("DB query executed successfully")
+#     response['name'] = book_info.title
+#     response['author'] = book_info.author
+#     response['year'] = book_info.year
+#     response['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
+#     return response
 
 @app.route("/welcome", methods=["GET","POST"])
 def logout():
     if request.method == "GET" :
     # user = user_email
         if session.get("email") is not None:
+            # print("--------------------------------hi")
             user_email = session.get("email")
             session.clear()
             # db.session.commit()
