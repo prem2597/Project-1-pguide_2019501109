@@ -1,4 +1,4 @@
-{% extends "layout3.html" %}
+{% extends "layout2.html" %}
 
 {% block title %}
     pguide|Book-Info
@@ -9,45 +9,99 @@
     <br>
     <br>
     <br>
-    <!-- <h1><center>Welcome to pguide!</center></h1> -->
     <br>
     <br>
-    <!-- {% for book in booklist %}
-        
-    {% endfor %} -->
-    <div class = "Book">
-        <div class = "Image">
-            <img src = {{image}} alt = "Image of a Book">
-        </div>
-
-        <div class = "news">
-            <div class = "content">
-                <div class = "details">
-                    <ul>
-                        <li>Book Name : {{Name}}</li>
-                        <li>Author : {{Author}}</li>
-                        <li>ISBN : {{ISBN}}</li>
-                        <li>Year of Publication : {{Year}}</li>
-                    </ul>
-                </div>
-
-                <div class = "overall">
-                    <ul>
-                        <li>Average Rating : {{rating}}</li>
-                        <li>Number of reviewers : {{count}}</li>
-                    </ul>
-                </div>
+    <div>
+        <div class="content" style="border: 1px solid black">
+            <div class = "name">
+                <h1>{{name}}'s dashboard</h1>
             </div>
-            <div class = "review">
-                <p>
-                    The Review Data comes in this Division.
-                </p>
+            <hr class="new4">
+            <div class = "Book">
+                <div class="flex-container">
+                    <section class="container" style="display: flex;">
+                        <div class="left-half">
+                            <article>
+                                <center><img src = {{image}} alt = "Image of a Book"></center>
+                            </article>
+                        </div>
+                        <div class="right-half">
+                            <article>
+                                <div class = "details">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <center>
+                                        <p>Book Name : {{Name}}</p>
+                                        <p>Author : {{Author}}</p>
+                                        <p>ISBN : {{ISBN}}</p>
+                                        <p>Year of Publication : {{Year}}</p>
+                                        <p>Average Rating : {{rating}}</p>
+                                        <p>Number of reviewers : {{count}}</p>
+                                    </center>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+                <hr class="new3">
+                <center>
+                    <div class = "button">
+                        <h3>Your Review</h3>
+                        <br>
+                        <form method="POST" class="form-border">
+                            <div class="flex-container">
+                                <section class="container" style="display: flex;">
+                                    <div class="left-half">
+                                        <article>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <div class = "select3">
+                                                <label for="rating" style = "font-weight: bold; color: black;">Rate this book</label>
+                                                <select id="rating" name="rating" class="form-control" required>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option selected value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <div class="rating-input">
+                                                <br>
+                                                <textarea name="matter" style= "color: black;" id="review" class="form-control" rows="10" placeholder="Write your review here" required></textarea>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                            <div>
+                                <button class="rating-btn" type="submit">{{Submit}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </center>
             </div>
-            <div class = "button" onclick = "document.getElementById('id01').style.display='block'">
+            <hr class="new3">
+            {% if rating_data != 0%}
+            <div class = "review" style = "display: flex; justify-content: center; color: black; float: top; font-style: normal; font-weight: bolder; font-size: x-small;">
                 <ul>
-                    <li><a href = "#">Review</a></li>
+                    <center>
+                        <li style = "font-size: 20px; font-style: normal;">Your Previous Rating & Review</li>
+                        <hr class="new3">
+                        <li style = "font-size: 20px; font-style: normal;">{{rating_data}}/5</li>
+                        <br>
+                        <li style = "color: black; font-size: 20px;">{{Review}}</li>
+                    </center>
                 </ul>
             </div>
+            {% endif %}
         </div>
     </div>
     <br>

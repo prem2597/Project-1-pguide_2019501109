@@ -1,3 +1,5 @@
 books.csv
 __pycache__
 flask_session
+templates/bookInfo.html
+templates/search.html
