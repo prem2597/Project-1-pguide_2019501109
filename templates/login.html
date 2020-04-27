@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/stylesheets/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="static/index.ico" />
+        <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="static/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="static/animate.css">
+        <link rel="stylesheet" type="text/css" href="static/hamburgers.min.css">
+        <link rel="stylesheet" type="text/css" href="static/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="static/util.css">
+        <link rel="stylesheet" type="text/css" href="static/main.css">
+        <title>Login|pguide</title>
+        <style>
+            body, html {
+                height: 100%;
+                font-family: Poppins-Regular,sans-serif;
+            }
+            body {
+                margin: 0;
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1.5;
+                color: #212529;
+                background-color: #fff;
+            }
+            .limiter {
+                width: 100%;
+                margin: 0 auto;
+                margin-top: 0px;
+                margin-right: auto;
+                margin-bottom: 0px;
+                margin-left: auto;
+            }
+            .container-login100 {
+                width: 100%;
+                min-height: 100vh;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                padding: 15px;
+                background: linear-gradient(-135deg,#c850c0,#4158d0);
+                background-color: rgba(0, 0, 0, 0);
+                background-position-x: 0%;
+                background-position-y: 0%;
+                background-repeat: repeat;
+                background-attachment: scroll;
+                background-image: linear-gradient(-135deg, rgb(200, 80, 192), rgb(65, 88, 208));
+                background-size: auto;
+                background-origin: padding-box;
+                background-clip: border-box;
+            }
+            * {
+                padding: 0;
+                padding-top: 0px;
+                padding-right: 0px;
+                padding-bottom: 0px;
+                padding-left: 0px;
+                box-sizing: border-box;
+            }
+        </style>
+    </head>
+    <body data-gr-c-s-loaded="true">
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100">
+                    <div class="login100-pic js-tilt" data-tilt>
+                        <img src="static/img.png" alt="IMG">
+                    </div>
+                    <form class="login100-form validate-form" action="/auth" method="POST">
+                        <span class="login100-form-title">Member Login</span>
+                        <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                            <input class="input100" type="text" name="email" placeholder="Email">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Password is required">
+                            <input class="input100" type="password" name="pass" placeholder="Password">
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-lock" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn">Login</button>
+                        </div>
+                        <div class="text-center p-t-12">
+                            <span class="txt1">Forgot</span>
+                            <a class="txt2" href="#">Username / Password?</a>
+                        </div>
+                        <div class="text-center p-t-136">
+                            <a class="txt2" href="#">
+                                Create your Account
+                                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="static/jquery-3.2.1.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="static/popper.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="static/bootstrap.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="static/select2.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="static/tilt.jquery.min.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script type="a61f8e3fec730eaa2555d713-text/javascript">
+                $('.js-tilt').tilt({
+                    scale: 1.1
+                })
+            </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script type="a61f8e3fec730eaa2555d713-text/javascript">
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-23581568-13');
+        </script>
+        <script src="static/main.js" type="a61f8e3fec730eaa2555d713-text/javascript"></script>
+        <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="a61f8e3fec730eaa2555d713-|49" defer=""></script>
+    </body>
+</html>

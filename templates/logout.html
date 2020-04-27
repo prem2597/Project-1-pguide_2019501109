@@ -1,0 +1,25 @@
+{% extends "layout2.html" %}
+
+{% block title %}
+    pguide|Home
+{% endblock %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1><center>Welcome to pguide!</center></h1>
+    <br>
+    <br>
+    <form action="/search" method="POST">
+        <div class="search-box">
+            <input class="search-txt" type="text" name="data" placeholder="Type to isbn or title or author">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+    <br>
+    <br>
+{% endblock %}
