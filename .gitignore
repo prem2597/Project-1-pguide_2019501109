@@ -1,9 +1,25 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 __pycache__
 flask_session
 ||||||| 74786cb
 =======
-books.csv
+||||||| merged common ancestors
+<<<<<<<<< Temporary merge branch 1
 __pycache__
 flask_session
+||||||||| 74786cb
+=========
+=======
+>>>>>>> 98f47bb26fc13fb0fc85bbab62801829293eb3da
+books.csv
+__pycache__
+<<<<<<< HEAD
+flask_session
 >>>>>>> registration
+||||||| merged common ancestors
+flask_session
+>>>>>>>>> Temporary merge branch 2
+=======
+flask_session
+>>>>>>> 98f47bb26fc13fb0fc85bbab62801829293eb3da
