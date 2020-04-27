@@ -87,67 +87,67 @@ def auth():
     else :
         return render_template("login.html")
 
-# @app.route("/search", methods=['POST'])
-# def search():
-#     searchword = request.form.get("data")
-#     searchword = "%" + searchword + "%"
-#     books = Books.query.filter(Books.title.like(searchword)).all()
-#     books1 = Books.query.filter(Books.author.like(searchword)).all()
-#     books2 = Books.query.filter(Books.isbn.like(searchword)).all()
-#     bookdata = books + books1 + books2
-#     return render_template("search.html", booklist = bookdata)
+@app.route("/search", methods=['POST'])
+def search():
+    searchword = request.form.get("data")
+    searchword = "%" + searchword + "%"
+    books = Books.query.filter(Books.title.like(searchword)).all()
+    books1 = Books.query.filter(Books.author.like(searchword)).all()
+    books2 = Books.query.filter(Books.isbn.like(searchword)).all()
+    bookdata = books + books1 + books2
+    return render_template("search.html", booklist = bookdata)
 
-# @app.route("/book:<isbn>", methods=["GET", "POST"])
-# def bookInfo(isbn):
-#     response = goodread_api(isbn)
-#     if request.method == "GET":
-#         if session.get('email') is not None:
-#             email = session["email"]
-#             name = Users.query.get(email)
-#             name = name.name
-#             review_data = Review.query.filter_by(username= email, isbn = isbn).first()
-#             if review_data is not None:
-#                 rating_data = review_data.rating
-#                 review = review_data.review
-#                 return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Edit", rating_data = rating_data, Review = review, name = name, Submit = "Edit")
-#             else :
-#                 return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Review", rating_data = 0, name = name, Submit = "Submit")
-#         return redirect(url_for("auth"))
-#     elif request.method == "POST":
-#         email = session["email"]
-#         review_data = Review.query.filter_by(username = email, isbn = isbn).first()
-#         name = Users.query.get(email)
-#         name = name.name
-#         rating_dat = request.form.get('rating')
-#         rev = request.form.get('matter')
-#         if review_data is None:
-#             revs = Review(username = email, isbn = isbn, rating = rating_dat,review = rev)
-#             total_rating = ((float(response["average_rating"]) * int(response["reviews_count"])) + int(rating_dat))/(int(response["reviews_count"]) + 1)
-#             response["average_rating"] = str(total_rating)
-#             response["reviews_count"] = str(int(response["reviews_count"]) + 1)
-#             db.session.add(revs)
-#             db.session.commit()
-#             return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Edit", rating_data = rating_dat, Review = rev, name = name, Submit = "Edit")
-#         else:
-#             review_data.rating = rating_dat
-#             review_data.review = rev
-#             total_rating = ((float(response["average_rating"]) * int(response["reviews_count"])) + int(rating_dat))/(int(response["reviews_count"]) + 1)
-#             db.session.commit()
-#             return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Edit", rating_data = rating_dat, Review = rev, name = name, Submit = "Edit")
+@app.route("/book:<isbn>", methods=["GET", "POST"])
+def bookInfo(isbn):
+    response = goodread_api(isbn)
+    if request.method == "GET":
+        if session.get('email') is not None:
+            email = session["email"]
+            name = Users.query.get(email)
+            name = name.name
+            review_data = Review.query.filter_by(username= email, isbn = isbn).first()
+            if review_data is not None:
+                rating_data = review_data.rating
+                review = review_data.review
+                return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Edit", rating_data = rating_data, Review = review, name = name, Submit = "Edit")
+            else :
+                return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Review", rating_data = 0, name = name, Submit = "Submit")
+        return redirect(url_for("auth"))
+    elif request.method == "POST":
+        email = session["email"]
+        review_data = Review.query.filter_by(username = email, isbn = isbn).first()
+        name = Users.query.get(email)
+        name = name.name
+        rating_dat = request.form.get('rating')
+        rev = request.form.get('matter')
+        if review_data is None:
+            revs = Review(username = email, isbn = isbn, rating = rating_dat,review = rev)
+            total_rating = ((float(response["average_rating"]) * int(response["reviews_count"])) + int(rating_dat))/(int(response["reviews_count"]) + 1)
+            response["average_rating"] = str(total_rating)
+            response["reviews_count"] = str(int(response["reviews_count"]) + 1)
+            db.session.add(revs)
+            db.session.commit()
+            return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Edit", rating_data = rating_dat, Review = rev, name = name, Submit = "Edit")
+        else:
+            review_data.rating = rating_dat
+            review_data.review = rev
+            total_rating = ((float(response["average_rating"]) * int(response["reviews_count"])) + int(rating_dat))/(int(response["reviews_count"]) + 1)
+            db.session.commit()
+            return render_template("bookInfo.html", Name = response["name"], Author = response["author"], ISBN = response["isbn"], Year = response["year"], rating = response["average_rating"], count = response["reviews_count"], image = response["img"], button = "Edit", rating_data = rating_dat, Review = rev, name = name, Submit = "Edit")
 
-# def goodread_api(isbn):
-#     key_value = "0gaifU0ED4eOcG7fDno6g"
-#     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
-#     logging.debug("Goodreads call Success")
-#     response = res.json()
-#     response = response['books'][0]
-#     book_info = Books.query.get(isbn)
-#     logging.debug("DB query executed successfully")
-#     response['name'] = book_info.title
-#     response['author'] = book_info.author
-#     response['year'] = book_info.year
-#     response['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
-#     return response
+def goodread_api(isbn):
+    key_value = "0gaifU0ED4eOcG7fDno6g"
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
+    logging.debug("Goodreads call Success")
+    response = res.json()
+    response = response['books'][0]
+    book_info = Books.query.get(isbn)
+    logging.debug("DB query executed successfully")
+    response['name'] = book_info.title
+    response['author'] = book_info.author
+    response['year'] = book_info.year
+    response['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
+    return response
 
 @app.route("/welcome", methods=["GET","POST"])
 def logout():
