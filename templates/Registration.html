@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registration|pguide</title>
+        <style>
+            .flex-container {
+                display: flex;
+            }
+            body {
+                font-family: "Poppins", "Arial", "sans-serif";
+                font-weight: 400;
+                font-size: 14px;
+            }
+            .p-b {
+                padding-bottom: 100px;
+            }
+            .p-y {
+                padding-top: 130px;
+            }
+            .bg-02 {
+                background: linear-gradient(to top right, #fc2c77 0%, #6c4079 100%);
+                background-color: rgba(0, 0, 0, 0);
+                background-position-x: 0%;
+                background-position-y: 0%;
+                background-repeat: repeat;
+                background-attachment: scroll;
+                background-image: linear-gradient(to right top, rgb(252, 44, 119) 0%, rgb(108, 64, 121) 100%);
+                background-size: auto;
+                background-origin: padding-box;
+                background-clip: border-box;
+            }
+            .font-style {
+                font-family: "Poppins", "Arial", "sans-serif";
+            }
+            .page-wrapper {
+                min-height: 100vh;
+            }
+            .wrapper-axis {
+                max-width: 680px;
+            }
+            .wrapper {
+                margin: 0 auto;
+                margin-top: 0px;
+                margin-right: auto;
+                margin-bottom: 0px;
+                margin-left: auto;
+            }
+            .card_data {
+                background: #fff;
+                background-color: rgb(255, 255, 255);
+                background-position-x: 0%;
+                background-position-y: 0%;
+                background-repeat: repeat;
+                background-attachment: scroll;
+                background-image: none;
+                background-size: auto;
+                background-origin: padding-box;
+                background-clip: border-box;
+                border-radius: 10px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+                box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+            }
+            .card_data .card-body {
+                padding: 50px 40px;
+                padding-top: 50px;
+                padding-right: 40px;
+                padding-left: 40px;
+            }
+            .title {
+                font-size: 24px;
+                color: black;
+                font-weight: 500;
+                margin-bottom: 40px;
+            }
+            *, ::before, ::after {
+                box-sizing: inherit;
+            }
+            body, h2 {
+                margin: 0;
+                padding: 0;
+            }
+            .label {
+                font-size: 16px;
+                color: #555;
+                text-transform: capitalize;
+                display: block;
+                margin-bottom: 5px;
+            }
+            .input-style {
+                line-height: 50px;
+                background: #fafafa;
+                box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+                border-radius: 5px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+                border-bottom-left-radius: 5px;
+                padding: 0 20px;
+                padding-top: 0px;
+                padding-right: 20px;
+                padding-bottom: 0px;
+                padding-left: 20px;
+                font-size: 16px;
+                color: #666;
+                transition: all 0.4s ease;
+                transition-property: all;
+                transition-duration: 0.4s;
+                transition-timing-function: ease;
+                transition-delay: 0s;
+            }
+            * {
+                padding: 0;
+                padding-top: 0px;
+                padding-right: 0px;
+                padding-bottom: 0px;
+                padding-left: 0px;
+                margin: 0;
+                margin-top: 0px;
+                margin-right: 0px;
+                margin-bottom: 0px;
+                margin-left: 0px;
+            }
+            div {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+            }
+            .container {
+              display: flex;
+            }
+            .left-half {
+              flex: 1;
+              padding: 1rem;
+            }
+            .right-half {
+              flex: 1;
+              padding: 1rem;
+            }
+            .radio-container {
+              max-width: 780px;
+              padding: 1px;
+            }
+            .p-t-15 {
+                padding-top: 15px;
+            }
+            .btn--blue {
+                background: #4272d7;
+            }
+            .btn--radius-2 {
+                border-radius: 5px;
+            }
+            .btn {
+                display: center;
+                line-height: 50px;
+                padding: 0 50px;
+                transition: all 0.4s ease;
+                transition-property: all;
+                transition-duration: 0.4s;
+                transition-timing-function: ease;
+                transition-delay: 0s;
+                cursor: pointer;
+                font-size: 18px;
+                color: #fff;
+                font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
+            }
+            button {
+                outline: none;
+                border: none;
+            }
+            .flex-holder {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .flex-container > div {
+                width: 150px;
+            }
+            .form-group {
+                margin-bottom: 23px;
+            }
+            .label-agree-term {
+                font-size: 13px;
+                font-weight: 400;
+                color: black;
+            }
+            input[type="checkbox"]:not(old) + label {
+                display: inline-block;
+                margin-bottom: 25px;
+            }
+            input[type="checkbox"]:not(old) + label > span {
+                display: inline-block;
+                margin-bottom: 25px;               
+                width: 13px;
+                height: 13px;
+                margin-right: 15px;
+                margin-bottom: 4px;
+                border: 1px solid #fff;
+                border-radius: 2px;
+                background: 0 0;
+                vertical-align: bottom;
+            }
+            .term-service {
+                color: blue;
+            }
+            input[type="checkbox"]:not(old):checked + label > span::before {
+                content: '\f26b';
+                display: block;
+                color: black;
+                font-size: 11px;
+                line-height: 1.2;
+                text-align: center;
+                font-family: material-design-iconic-font;
+                font-weight: 700;
+            }
+        </style>
+    </head>
+    <body data-gr-c-s-loaded="true">
+        <div class="page-wrapper bg-02 p-y p-b font-style">
+            <div class="wrapper wrapper-axis">
+                <div class = "card card_data">
+                    <div class="card-body">
+                        <h2 class="title">Register Here</h2>
+                        <form action="{{ url_for('hello') }}" method="POST">
+                            <div class="flex-container">
+                                <section class="container">
+                                    <div class="left-half">
+                                        <article>
+                                            <label class="label">Fisrt Name</label>
+                                            <input class="input-style" type="text" name="first-name" placeholder="First Name">
+                                        </article>
+                                    </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <label class="label">Last Name</label>
+                                            <input class="input-style" type="text" name="last-name" placeholder="Last Name">
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="flex-container">
+                                <section class="container">
+                                    <div class="left-half">
+                                        <article>
+                                            <label class="label">Birthday</label>
+                                            <input class="input-style" type="date" name="date-of-birth">
+                                        </article>
+                                    </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <label class="label">Gender</label>
+                                            <section class="container">
+                                                <div class="left-half">
+                                                    <article>
+                                                        <label class="radio-container">
+                                                            Male 
+                                                        </label>
+                                                        <input type="radio" name="gender" value="male" id="male">
+                                                    </article>
+                                                </div>
+                                                <div class="right-half">
+                                                    <article>
+                                                        <label class="radio-container">
+                                                            Female
+                                                        </label>
+                                                        <input type="radio" name="gender" value="female" id="female">
+                                                    </article>
+                                                </div>
+                                            </section>
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="flex-container">
+                                <section class="container">
+                                    <div class="left-half">
+                                        <article>
+                                            <label class="label">Email</label>
+                                            <input class="input-style" type="email" name="email" placeholder="Email">
+                                        </article>
+                                    </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <label class="label">Phone Number</label>
+                                            <input class="input-style" type="number" name="Phone-number">
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="flex-container">
+                                <section class="container">
+                                    <div class="left-half">
+                                        <article>
+                                            <label class="label">Enter Password</label>
+                                            <input class="input-style" type="password" name="password" placeholder="password">
+                                        </article>
+                                    </div>
+                                    <div class="right-half">
+                                        <article>
+                                            <label class="label">Re-Enter Password</label>
+                                            <input class="input-style" type="password" name="re-password" placeholder="password">
+                                        </article>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-agree-term" for="agree-term"><center>
+                                    <span>
+                                        <span></span>
+                                    </span>
+                                    <br><input type="checkbox" name="valid" id="privacy"> I agree with all statements in
+                                    <a class="term-service" href="#">Terms of service</a>
+                                </center>
+                                </label>
+                            </div>
+                            <div class="flex-holder">
+                               <div class="p-t-15">
+                                   <button class="btn btn--radius-2 btn--blue" type="submit">SIGN UP</button>
+                               </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

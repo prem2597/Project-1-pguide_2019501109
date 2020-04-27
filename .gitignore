@@ -1,2 +1,9 @@
+<<<<<<< HEAD
 __pycache__
 flask_session
+||||||| 74786cb
+=======
+books.csv
+__pycache__
+flask_session
+>>>>>>> registration
