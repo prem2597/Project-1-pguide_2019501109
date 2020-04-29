@@ -2,12 +2,13 @@ import os
 import json
 import hashlib
 from datetime import datetime
-from flask import Flask, render_template, request, session , url_for, redirect
+from flask import Flask, render_template, request, session , url_for, redirect, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models import *
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 import requests
 import logging
 
@@ -25,9 +26,17 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATION "] = False
 Session(app)
 db.init_app(app)
+ma = Marshmallow(app)
 
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
+
+class BooksSchema(ma.Schema):
+    class Meta:
+        fields = ('isbn', 'title', 'author', 'review', 'year', 'rating')
+
+product_schema = BooksSchema ()
+products_schema = BooksSchema (many = True)
 
 @app.route("/")
 def coverpage():
@@ -161,3 +170,22 @@ def logout():
             return render_template("hello.html", name = details)
     else :
         return redirect(url_for('logout.html'))
+
+@app.route("/api/search", methods=["GET"])
+def get_search():
+    searched_value = Books.query.all()
+    result = products_schema.dump(searched_value)
+    return jsonify(result)
+
+@app.route("/api/book/<isbn>", methods=["GET"])
+def get_bookinfo(isbn):
+    searched_value = Books.query.filter(Books.isbn.like(isbn)).all()
+    result = products_schema.dump(searched_value)
+    return jsonify(result)
+
+@app.route("/api/submit_review/<isbn>", methods=["GET"])
+def get_review(isbn):
+    searched_value = Review.query.filter_by(isbn = isbn).all()
+    result = products_schema.dump(searched_value)
+    return jsonify(result)
+
