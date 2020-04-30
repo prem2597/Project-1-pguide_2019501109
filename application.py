@@ -2,7 +2,7 @@ import os
 import json
 import hashlib
 from datetime import datetime
-from flask import Flask, render_template, request, session , url_for, redirect, jsonify
+from flask import Flask, render_template, request, session , url_for, redirect, jsonify, abort
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -186,6 +186,9 @@ def get_bookinfo(isbn):
 @app.route("/api/submit_review/<isbn>", methods=["GET"])
 def get_review(isbn):
     searched_value = Review.query.filter_by(isbn = isbn).all()
-    result = products_schema.dump(searched_value)
-    return jsonify(result)
+    if len(searched_value) == 0:
+        abort(400)
+    else :
+        result = products_schema.dump(searched_value)
+        return jsonify(result), 200
 
