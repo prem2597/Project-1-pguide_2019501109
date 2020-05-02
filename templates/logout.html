@@ -12,14 +12,20 @@
     <h1><center>Welcome to pguide!</center></h1>
     <br>
     <br>
-    <form action="/search" method="POST">
+    <!-- action="/search"  -->
+    <form id="form_js">
         <div class="search-box">
-            <input class="search-txt" type="text" name="data" placeholder="Type to isbn or title or author">
-            <button class="search-btn">
+            <input class="search-txt" type="text" name="data" autocomplete="off" autofocus id="myInput" placeholder="Type to isbn or title or author">
+            <button class="search-btn" type="submit">
                 <i class="fas fa-search"></i>
             </button>
         </div>
     </form>
+    <br>
+    <br>
+    <div id="result"></div>
+    <br>
+    <div id="book_details"></div>
     <br>
     <br>
 {% endblock %}

@@ -158,7 +158,7 @@ def goodread_api(isbn):
     response['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
     return response
 
-@app.route("/welcome", methods=["GET","POST"])
+@app.route("/logout", methods=["GET","POST"])
 def logout():
     if request.method == "GET" :
         if session.get("email") is not None:
@@ -171,24 +171,58 @@ def logout():
     else :
         return redirect(url_for('logout.html'))
 
-@app.route("/api/search", methods=["GET"])
+@app.route("/api/search", methods=["POST"])
 def get_search():
-    searched_value = Books.query.all()
-    result = products_schema.dump(searched_value)
-    return jsonify(result)
+    if request.method == "POST":
+        query = request.get_json()
+        print("------------------------------------------------",query)
+        if 'search' in query:
+            print("Hey--------")
+            text = query["search"].strip()
+            print("Hello--------",text)
+            searchword = "%" + text + "%"
+            books = Books.query.filter(Books.title.like(searchword)).all()
+            # print(type(books))
+            books1 = Books.query.filter(Books.author.like(searchword)).all()
+            books2 = Books.query.filter(Books.isbn.like(searchword)).all()
+            bookdata = books + books1 + books2
+            l = []
+            books_json = {}
+            for book in bookdata :
+                dict2 = {}
+                dict2["isbn"] = book.isbn
+                dict2["title"] = book.title
+                l.append(dict2)
+            books_json["bookdata"] = l
+            # print("bye", books_json)
+            # result = products_schema.dump(books_json)
+            # print("hello",result)
+            return jsonify(books_json)
 
-@app.route("/api/book/<isbn>", methods=["GET"])
-def get_bookinfo(isbn):
-    searched_value = Books.query.filter(Books.isbn.like(isbn)).all()
-    result = products_schema.dump(searched_value)
-    return jsonify(result)
 
-@app.route("/api/submit_review/<isbn>", methods=["GET"])
-def get_review(isbn):
-    searched_value = Review.query.filter_by(isbn = isbn).all()
-    if len(searched_value) == 0:
-        abort(400)
-    else :
+@app.route("/api/book", methods=["GET", "POST"])
+def get_bookinfo():
+    isbn = request.args.get('isbn')
+    if request.method == "GET":
+        searched_value = Books.query.filter(Books.isbn.like(isbn)).all()
         result = products_schema.dump(searched_value)
         return jsonify(result), 200
+    else :
+        response = goodread_api(isbn)
+        if response is None:
+            return jsonify({"success": False})
+        return jsonify(response), 200
+
+@app.route("/api/submit_review/<isbn>", methods=["GET", "POST"])
+def get_review(isbn):
+    if request.method == "GET":
+        searched_value = Review.query.filter_by(isbn = isbn).all()
+        if len(searched_value) == 0:
+            # abort(400)
+            return jsonify({"error": "There is no such book"}), 400
+        else :
+            result = products_schema.dump(searched_value)
+            return jsonify(result), 200
+    # else :
+
 
