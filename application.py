@@ -33,7 +33,7 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 
 class BooksSchema(ma.Schema):
     class Meta:
-        fields = ('isbn', 'title', 'author', 'review', 'year', 'rating')
+        fields = ('isbn', 'title', 'author', 'review', 'year', 'rating', 'img')
 
 product_schema = BooksSchema ()
 products_schema = BooksSchema (many = True)
@@ -146,12 +146,10 @@ def bookInfo(isbn):
 
 def goodread_api(isbn):
     key_value = "0gaifU0ED4eOcG7fDno6g"
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
-    logging.debug("Goodreads call Success")
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn})
     response = res.json()
     response = response['books'][0]
     book_info = Books.query.get(isbn)
-    logging.debug("DB query executed successfully")
     response['name'] = book_info.title
     response['author'] = book_info.author
     response['year'] = book_info.year
@@ -208,10 +206,48 @@ def get_bookinfo():
         result = products_schema.dump(searched_value)
         return jsonify(result), 200
     else :
-        response = goodread_api(isbn)
-        if response is None:
+        # response = goodread_api(isbn)
+        # key_value = "0gaifU0ED4eOcG7fDno6g"
+        # res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
+        # # logging.debug("Goodreads call Success")
+        # response = res.json()
+        # print(type(res))
+        print("------------>",isbn)
+        book_info = book_det(isbn)
+        # print (type(book_info))
+        # print ("------------",book_info[0].title)
+        # for i in book_info[0] :
+        #     print(i["author"])
+        if book_info is None:
             return jsonify({"success": False})
-        return jsonify(response), 200
+        # print("isbn",book_info.isbn)
+        # print(response["books"])
+        # book_info = Books.query.get(isbn)
+        l = []
+        # books_jon = {}
+        dict2 = {}
+        # dict2["ratings_count"] = response["books"][0]['ratings_count']
+        # dict2["reviews_count"] = response["books"][0]['reviews_count']
+        print("-----------dict",book_info.title)
+        dict2['title'] = book_info.title
+        dict2['author'] = book_info.author
+        dict2['year'] = book_info.year
+        dict2['isbn'] = book_info.isbn
+        dict2['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
+        # print(dict2)
+        l.append(dict2)
+        # books_jon["bookdetails"] = l
+        # print (book)
+        result = products_schema.dump(l)
+        return jsonify(result), 200
+
+def book_det(isbn):
+    book_info = Books.query.filter(Books.isbn.like(isbn)).all()
+    if book_info is None :
+        print("Null")
+    print("GOOD")
+    print ("-->",book_info[0])
+    return book_info[0]
 
 @app.route("/api/submit_review/<isbn>", methods=["GET", "POST"])
 def get_review(isbn):
@@ -223,6 +259,5 @@ def get_review(isbn):
         else :
             result = products_schema.dump(searched_value)
             return jsonify(result), 200
-    # else :
 
 

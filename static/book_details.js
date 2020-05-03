@@ -1,4 +1,5 @@
-function generate_book_details(isbn) {
+export function generate_book_details(isbn) {
+    alert("Fetching Data")
     var request = new XMLHttpRequest();
     request.open('POST', '/api/book?isbn='+isbn);
     request.onload = function() {
