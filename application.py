@@ -158,7 +158,7 @@ def goodread_api(isbn):
     response['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
     return response
 
-@app.route("/logout", methods=["GET","POST"])
+@app.route("/welcome", methods=["GET","POST"])
 def logout():
     if request.method == "GET" :
         if session.get("email") is not None:
