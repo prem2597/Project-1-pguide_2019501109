@@ -201,17 +201,23 @@ def get_search():
 @app.route("/api/book", methods=["GET", "POST"])
 def get_bookinfo():
     isbn = request.args.get('isbn')
-    if request.method == "GET":
+    print(type(isbn))
+    print("here1",isbn,"here3")
+    if request.method == "POST":
         searched_value = Books.query.filter(Books.isbn.like(isbn)).all()
+        print("here2",searched_value)
         result = products_schema.dump(searched_value)
-        return jsonify(result), 200
+        print("here3",result)
+        return jsonify(result[0]), 200
     else :
         # response = goodread_api(isbn)
-        # key_value = "0gaifU0ED4eOcG7fDno6g"
-        # res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
+        key_value = "0gaifU0ED4eOcG7fDno6g"
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
         # # logging.debug("Goodreads call Success")
-        # response = res.json()
-        # print(type(res))
+        response = res.json()
+        print(type(res))
+        print(response)
+        print(response["books"][0]["ratings_count"])
         print("------------>",isbn)
         book_info = book_det(isbn)
         # print (type(book_info))
@@ -234,6 +240,8 @@ def get_bookinfo():
         dict2['year'] = book_info.year
         dict2['isbn'] = book_info.isbn
         dict2['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
+        dict2['review'] = response["books"][0]["reviews_count"]
+        dict2['rating'] = response["books"][0]["ratings_count"]
         # print(dict2)
         l.append(dict2)
         # books_jon["bookdetails"] = l
