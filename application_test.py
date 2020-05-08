@@ -4,11 +4,6 @@ from models import *
 from application import *
 
 class BasicTests(unittest.TestCase):
- 
-    ############################
-    #### setup and teardown ####
-    ############################
- 
     # executed prior to each test
     def setUp(self):
         app.config['TESTING'] = True
@@ -24,11 +19,6 @@ class BasicTests(unittest.TestCase):
     # executed after each test
     def tearDown(self):
         pass
- 
-    ########################
-    #### helper methods ####
-    ########################
-     
     def register(self, email, password):
         return self.app.post('/register',data=dict(email=email, psw=password),follow_redirects=True)
      
@@ -41,9 +31,7 @@ class BasicTests(unittest.TestCase):
     def get_book(self, type1):
         return self.app.get('/books', data=dict(isbn=type1),follow_redirects=True)
  
-    ###############
-    #### tests ####
-    ###############
+    #===========================================================
  
     def test_main_page(self):
         response = self.app.get('/', follow_redirects=True)

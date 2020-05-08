@@ -19,6 +19,7 @@ if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
 app.secret_key = 'super secret key'
+
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -33,7 +34,7 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 
 class BooksSchema(ma.Schema):
     class Meta:
-        fields = ('isbn', 'title', 'author', 'review', 'year', 'rating', 'img')
+        fields = ('isbn', 'title', 'author', 'review', 'year', 'rating', 'img', 'user_rating', 'user_review', 'name')
 
 product_schema = BooksSchema ()
 products_schema = BooksSchema (many = True)
@@ -173,14 +174,10 @@ def logout():
 def get_search():
     if request.method == "POST":
         query = request.get_json()
-        print("------------------------------------------------",query)
         if 'search' in query:
-            print("Hey--------")
             text = query["search"].strip()
-            print("Hello--------",text)
             searchword = "%" + text + "%"
             books = Books.query.filter(Books.title.like(searchword)).all()
-            # print(type(books))
             books1 = Books.query.filter(Books.author.like(searchword)).all()
             books2 = Books.query.filter(Books.isbn.like(searchword)).all()
             bookdata = books + books1 + books2
@@ -192,49 +189,28 @@ def get_search():
                 dict2["title"] = book.title
                 l.append(dict2)
             books_json["bookdata"] = l
-            # print("bye", books_json)
-            # result = products_schema.dump(books_json)
-            # print("hello",result)
             return jsonify(books_json)
-
 
 @app.route("/api/book", methods=["GET", "POST"])
 def get_bookinfo():
     isbn = request.args.get('isbn')
-    print(type(isbn))
-    print("here1",isbn,"here3")
     if request.method == "POST":
         searched_value = Books.query.filter(Books.isbn.like(isbn)).all()
-        print("here2",searched_value)
         result = products_schema.dump(searched_value)
-        print("here3",result)
         return jsonify(result[0]), 200
     else :
-        # response = goodread_api(isbn)
         key_value = "0gaifU0ED4eOcG7fDno6g"
-        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
-        # # logging.debug("Goodreads call Success")
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn})
         response = res.json()
-        print(type(res))
-        print(response)
-        print(response["books"][0]["ratings_count"])
-        print("------------>",isbn)
         book_info = book_det(isbn)
-        # print (type(book_info))
-        # print ("------------",book_info[0].title)
-        # for i in book_info[0] :
-        #     print(i["author"])
+        email = session["email"]
+        name = Users.query.get(email)
+        name = name.name
+        h = book_det_review(isbn,email)
         if book_info is None:
             return jsonify({"success": False})
-        # print("isbn",book_info.isbn)
-        # print(response["books"])
-        # book_info = Books.query.get(isbn)
         l = []
-        # books_jon = {}
         dict2 = {}
-        # dict2["ratings_count"] = response["books"][0]['ratings_count']
-        # dict2["reviews_count"] = response["books"][0]['reviews_count']
-        print("-----------dict",book_info.title)
         dict2['title'] = book_info.title
         dict2['author'] = book_info.author
         dict2['year'] = book_info.year
@@ -242,10 +218,10 @@ def get_bookinfo():
         dict2['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
         dict2['review'] = response["books"][0]["reviews_count"]
         dict2['rating'] = response["books"][0]["ratings_count"]
-        # print(dict2)
+        dict2['user_rating'] = h['rating']
+        dict2['user_review'] = h['review']
+        dict2['name'] = name
         l.append(dict2)
-        # books_jon["bookdetails"] = l
-        # print (book)
         result = products_schema.dump(l)
         return jsonify(result), 200
 
@@ -253,19 +229,25 @@ def book_det(isbn):
     book_info = Books.query.filter(Books.isbn.like(isbn)).all()
     if book_info is None :
         print("Null")
-    print("GOOD")
-    print ("-->",book_info[0])
     return book_info[0]
+
+def book_det_review(isbn, email) :
+    review_data = Review.query.filter_by(username= email, isbn = isbn).first()
+    review_dict = {}
+    if review_data is not None:
+        review_dict["rating"] = review_data.rating
+        review_dict["review"] = review_data.review
+    else :
+        review_dict["rating"] = '0'
+        review_dict["review"] = '0'
+    return review_dict
 
 @app.route("/api/submit_review/<isbn>", methods=["GET", "POST"])
 def get_review(isbn):
     if request.method == "GET":
         searched_value = Review.query.filter_by(isbn = isbn).all()
         if len(searched_value) == 0:
-            # abort(400)
             return jsonify({"error": "There is no such book"}), 400
         else :
             result = products_schema.dump(searched_value)
             return jsonify(result), 200
-
-

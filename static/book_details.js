@@ -11,7 +11,6 @@ export function generate_book_details(isbn) {
             +'<div class="right-half"><article><div class = "details"><br><br><br><center><center><p>Book Name : '+ data.name +'</p>'+
             +'<p>Author : '+data.author+'</p><p>ISBN : '+data.isbn+'</p><p>Year of Publication : '+data.year+'</p><p>Average Rating : '+data.ratings_count+'</p><p>Number of reviewers : '+data.reviews_count+'</p></center>'+
             +'</div></article></div></section></div></div>';
-            
             document.querySelector('#book_details').innerHTML = content;
         }
         else {
