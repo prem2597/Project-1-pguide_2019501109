@@ -41,13 +41,13 @@ function generate_book_details(isbn) {
                 '<div class="right-half"><article><div class = "details"><br><br><br>'+
                 '<center><p>Book Name : "'+data[0]["title"]+'"</p><p>Author : "'+data[0]["author"]+'"</p><p>ISBN : "'+data[0]["isbn"]+'"</p><p>Year of Publication : "'+data[0]["year"]+'"</p><p>Average Rating : "'+data[0]["rating"]+'"</p><p>Number of reviewers : "'+data[0]["review"]+'"</p></center>'+
                 '</div></article></div></section></div><hr class="new3"><center><div class = "button"><h3>Your Review</h3><br>'+
-                '<form method="POST" class="form-border"><div class="flex-container"><section class="container" style="display: flex;">'+
+                '<form method="POST" class="form-border" id=form_review><div class="flex-container"><section class="container" style="display: flex;">'+
                 '<div class="left-half"><article><br><br><br><br><br><div class = "select3"><label for="rating" style = "font-weight: bold; color: black;">Rate this book</label>'+
                 '<select id="rating" name="rating" class="form-control" required><option value="1">1</option><option value="2">2</option>'+
                 '<option selected value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></article></div>'+
                 '<div class="right-half"><article><div class="rating-input"><br>'+
                 '<textarea name="matter" style= "color: black;" id="review" class="form-control" rows="10" placeholder="Write your review here" required></textarea>'+
-                '</div></article></div></section></div><div><button class="rating-btn" type="submit">'+"Edit"+'</button></div></form></div></center></div>'+
+                '</div></article></div></section></div><div><button class="rating-btn" type="submit" onclick=generate_review("'+data[0]["isbn"]+'")>'+"Edit"+'</button></div></form></div></center></div>'+
                 '<hr class="new3"><div class = "review" style = "display: flex; justify-content: center; color: black; float: top; font-style: normal; font-weight: bolder; font-size: x-small;">'+
                 '<ul><center><li style = "font-size: 20px; font-style: normal;">Your Previous Rating & Review</li><hr class="new3">'+
                 '<li style = "font-size: 20px; font-style: normal;">'+data[0]["user_rating"]+'/5</li><br><li style = "color: black; font-size: 20px;">"'+data[0]["user_review"]+'"</li></center>'+
@@ -62,13 +62,13 @@ function generate_book_details(isbn) {
                 '<div class="right-half"><article><div class = "details"><br><br><br>'+
                 '<center><p>Book Name : "'+data[0]["title"]+'"</p><p>Author : "'+data[0]["author"]+'"</p><p>ISBN : "'+data[0]["isbn"]+'"</p><p>Year of Publication : "'+data[0]["year"]+'"</p><p>Average Rating : "'+data[0]["rating"]+'"</p><p>Number of reviewers : "'+data[0]["review"]+'"</p></center>'+
                 '</div></article></div></section></div><hr class="new3"><center><div class = "button"><h3>Your Review</h3><br>'+
-                '<form method="POST" class="form-border"><div class="flex-container"><section class="container" style="display: flex;">'+
+                '<form method="POST" class="form-border" id=form_review><div class="flex-container"><section class="container" style="display: flex;">'+
                 '<div class="left-half"><article><br><br><br><br><br><div class = "select3"><label for="rating" style = "font-weight: bold; color: black;">Rate this book</label>'+
                 '<select id="rating" name="rating" class="form-control" required><option value="1">1</option><option value="2">2</option>'+
                 '<option selected value="3">3</option><option value="4">4</option><option value="5">5</option></select></div></article></div>'+
                 '<div class="right-half"><article><div class="rating-input"><br>'+
                 '<textarea name="matter" style= "color: black;" id="review" class="form-control" rows="10" placeholder="Write your review here" required></textarea>'+
-                '</div></article></div></section></div><div><button class="rating-btn" type="submit">'+"Submit"+'</button></div></form></div></center></div>'+
+                '</div></article></div></section></div><div><button class="rating-btn" type="submit" onclick=generate_review("'+data[0]["isbn"]+'")>'+"Submit"+'</button></div></form></div></center></div>'+
                 '</div></div>'
                 document.querySelector('#book_details').innerHTML = content;
             }
@@ -78,4 +78,21 @@ function generate_book_details(isbn) {
         }
     };
     request.send();
+}
+
+function generate_review(isbn) {
+    alert("Updating Data-base")
+    document.querySelector('#form_review').onsubmit = () => {
+        var rate = document.querySelector('#rating').value;
+        var review = document.querySelector('#review').value;
+        var req = new XMLHttpRequest();
+        req.open("POST", "/api/submit_review");
+        req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        req.send(JSON.stringify({ "rating": rate, "review": review, "isbn": isbn}));
+        req.onload = () => {
+            var data = JSON.parse(req.responseText);
+            generate_book_details(isbn)            
+        }
+        return false
+    }
 }

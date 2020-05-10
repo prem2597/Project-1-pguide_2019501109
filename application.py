@@ -242,12 +242,30 @@ def book_det_review(isbn, email) :
         review_dict["review"] = '0'
     return review_dict
 
-@app.route("/api/submit_review/<isbn>", methods=["GET", "POST"])
-def get_review(isbn):
+@app.route("/api/submit_review", methods=["GET", "POST"])
+def get_review():
     if request.method == "GET":
+        isbn = request.args.get('isbn')
         searched_value = Review.query.filter_by(isbn = isbn).all()
         if len(searched_value) == 0:
             return jsonify({"error": "There is no such book"}), 400
         else :
             result = products_schema.dump(searched_value)
             return jsonify(result), 200
+    else :
+        email = session["email"]
+        query = request.get_json()
+        if query is not None:
+            review_data = Review.query.filter_by(username= email, isbn = query["isbn"]).first()
+            if review_data is None :
+                revs = Review(username = email, isbn = query["isbn"], rating = query["rating"],review = query["review"])
+                db.session.add(revs)
+                db.session.commit()
+                return jsonify({"success": True})
+            else :
+                review_data.rating = query["rating"]
+                review_data.review = query["review"]
+                db.session.commit()
+                return jsonify({"success": True})
+        else :
+            return jsonify({"Failed": False})
