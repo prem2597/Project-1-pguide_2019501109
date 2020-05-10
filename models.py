@@ -1,6 +1,4 @@
-# from flask_sqlalchemy import TIMESTAMP
 from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy.sql.schema import ForeignKey, PrimaryKeyConstraint
 from sqlalchemy import *
 
 db = SQLAlchemy()
@@ -30,4 +28,3 @@ class Review(db.Model):
     review = db.Column(db.String)
 
     __table_args__ = (PrimaryKeyConstraint("isbn", "username"),)
-    

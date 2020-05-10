@@ -36,7 +36,6 @@ class Books(db.Model):
         self.author = author
         self.year = year
 
-
 db.create_all()
 
 def main():

@@ -2,12 +2,13 @@ import os
 import json
 import hashlib
 from datetime import datetime
-from flask import Flask, render_template, request, session , url_for, redirect
+from flask import Flask, render_template, request, session , url_for, redirect, jsonify, abort
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models import *
 from flask_sqlalchemy import SQLAlchemy
+from flask_marshmallow import Marshmallow
 import requests
 import logging
 
@@ -18,6 +19,7 @@ if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
 app.secret_key = 'super secret key'
+
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -25,9 +27,17 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATION "] = False
 Session(app)
 db.init_app(app)
+ma = Marshmallow(app)
 
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
+
+class BooksSchema(ma.Schema):
+    class Meta:
+        fields = ('isbn', 'title', 'author', 'review', 'year', 'rating', 'img', 'user_rating', 'user_review', 'name')
+
+product_schema = BooksSchema ()
+products_schema = BooksSchema (many = True)
 
 @app.route("/")
 def coverpage():
@@ -137,12 +147,10 @@ def bookInfo(isbn):
 
 def goodread_api(isbn):
     key_value = "0gaifU0ED4eOcG7fDno6g"
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn}) 
-    logging.debug("Goodreads call Success")
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn})
     response = res.json()
     response = response['books'][0]
     book_info = Books.query.get(isbn)
-    logging.debug("DB query executed successfully")
     response['name'] = book_info.title
     response['author'] = book_info.author
     response['year'] = book_info.year
@@ -161,3 +169,103 @@ def logout():
             return render_template("hello.html", name = details)
     else :
         return redirect(url_for('logout.html'))
+
+@app.route("/api/search", methods=["POST"])
+def get_search():
+    if request.method == "POST":
+        query = request.get_json()
+        if 'search' in query:
+            text = query["search"].strip()
+            searchword = "%" + text + "%"
+            books = Books.query.filter(Books.title.like(searchword)).all()
+            books1 = Books.query.filter(Books.author.like(searchword)).all()
+            books2 = Books.query.filter(Books.isbn.like(searchword)).all()
+            bookdata = books + books1 + books2
+            l = []
+            books_json = {}
+            for book in bookdata :
+                dict2 = {}
+                dict2["isbn"] = book.isbn
+                dict2["title"] = book.title
+                l.append(dict2)
+            books_json["bookdata"] = l
+            return jsonify(books_json)
+
+@app.route("/api/book", methods=["GET", "POST"])
+def get_bookinfo():
+    isbn = request.args.get('isbn')
+    if request.method == "POST":
+        searched_value = Books.query.filter(Books.isbn.like(isbn)).all()
+        result = products_schema.dump(searched_value)
+        return jsonify(result[0]), 200
+    else :
+        key_value = "0gaifU0ED4eOcG7fDno6g"
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": key_value, "isbns": isbn})
+        response = res.json()
+        book_info = book_det(isbn)
+        email = session["email"]
+        name = Users.query.get(email)
+        name = name.name
+        h = book_det_review(isbn,email)
+        if book_info is None:
+            return jsonify({"success": False})
+        l = []
+        dict2 = {}
+        dict2['title'] = book_info.title
+        dict2['author'] = book_info.author
+        dict2['year'] = book_info.year
+        dict2['isbn'] = book_info.isbn
+        dict2['img'] = "http://covers.openlibrary.org/b/isbn/" + isbn + ".jpg"
+        dict2['review'] = response["books"][0]["reviews_count"]
+        dict2['rating'] = response["books"][0]["ratings_count"]
+        dict2['user_rating'] = h['rating']
+        dict2['user_review'] = h['review']
+        dict2['name'] = name
+        l.append(dict2)
+        result = products_schema.dump(l)
+        return jsonify(result), 200
+
+def book_det(isbn):
+    book_info = Books.query.filter(Books.isbn.like(isbn)).all()
+    if book_info is None :
+        print("Null")
+    return book_info[0]
+
+def book_det_review(isbn, email) :
+    review_data = Review.query.filter_by(username= email, isbn = isbn).first()
+    review_dict = {}
+    if review_data is not None:
+        review_dict["rating"] = review_data.rating
+        review_dict["review"] = review_data.review
+    else :
+        review_dict["rating"] = '0'
+        review_dict["review"] = '0'
+    return review_dict
+
+@app.route("/api/submit_review", methods=["GET", "POST"])
+def get_review():
+    if request.method == "GET":
+        isbn = request.args.get('isbn')
+        searched_value = Review.query.filter_by(isbn = isbn).all()
+        if len(searched_value) == 0:
+            return jsonify({"error": "There is no such book"}), 400
+        else :
+            result = products_schema.dump(searched_value)
+            return jsonify(result), 200
+    else :
+        email = session["email"]
+        query = request.get_json()
+        if query is not None:
+            review_data = Review.query.filter_by(username= email, isbn = query["isbn"]).first()
+            if review_data is None :
+                revs = Review(username = email, isbn = query["isbn"], rating = query["rating"],review = query["review"])
+                db.session.add(revs)
+                db.session.commit()
+                return jsonify({"success": True})
+            else :
+                review_data.rating = query["rating"]
+                review_data.review = query["review"]
+                db.session.commit()
+                return jsonify({"success": True})
+        else :
+            return jsonify({"Failed": False})
